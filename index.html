@@ -1,228 +1,1246 @@
+
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sameer ❤️ Meera - The Big Day</title>
-    <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Poppins:wght@400;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <title>Official Gopal Fan Club & Birthday Quest</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght=300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
     <style>
+        /* --- CSS VARIABLES & THEME --- */
         :root {
-            --kesariya: #FF8F00;
-            --kumkum: #B71C1C;
-            --haldi: #FFD600;
-            --rani: #C2185B;
-            --gold: #D4AF37;
-            --ivory: #FFFDF5;
+            --bg-gradient: linear-gradient(135deg, #0f0c1b 0%, #201335 50%, #0b0214 100%);
+            --neon-pink: #ff2a74;
+            --neon-cyan: #00f3ff;
+            --neon-purple: #b10dc9;
+            --neon-green: #39ff14;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-color: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
         }
 
         body {
-            margin: 0; padding: 0; font-family: 'Poppins', sans-serif;
-            background: #fdf2e9; height: 100vh;
-            display: flex; justify-content: center; align-items: center; overflow: hidden;
+            background: var(--bg-gradient);
+            color: var(--text-color);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
         }
 
-        .flower {
-            position: absolute; width: 20px; height: 20px;
-            border-radius: 50% 0 50% 0; opacity: 0.8; z-index: 1;
-            animation: fall linear infinite;
+        /* --- BACKGROUND PARTICLES / BALLOONS --- */
+        #ambient-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
         }
 
-        @keyframes fall {
-            0% { transform: translateY(-10vh) rotate(0deg); }
-            100% { transform: translateY(110vh) rotate(360deg); }
+        .balloon {
+            position: absolute;
+            bottom: -100px;
+            width: 40px;
+            height: 50px;
+            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+            animation: floatUp 15s linear infinite;
+            opacity: 0.6;
+        }
+        .balloon::after {
+            content: "";
+            position: absolute;
+            bottom: -8px;
+            left: 18px;
+            width: 4px;
+            height: 8px;
+            background: rgba(255,255,255,0.5);
         }
 
-        .lang-switcher {
-            position: fixed; top: 15px; z-index: 100;
-            background: white; border: 2px solid var(--kesariya);
-            border-radius: 30px; display: flex; overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); left: var(--start-x); }
+            100% { transform: translateY(-120vh) rotate(360deg); left: var(--end-x); }
         }
 
-        .lang-switcher span {
-            padding: 8px 15px; cursor: pointer; font-size: 0.85rem; font-weight: bold; transition: 0.3s;
+        /* --- UTILITIES & GLASSMORPHISM --- */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 20px auto;
+            max-width: 800px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px 0 rgba(0, 243, 255, 0.2);
         }
 
-        .lang-switcher span.active { background: var(--kesariya); color: white; }
-        .jp-font { font-family: 'Noto Sans JP', sans-serif; }
+        .neon-text-pink { text-shadow: 0 0 10px var(--neon-pink), 0 0 20px var(--neon-pink); color: #fff; }
+        .neon-text-cyan { text-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan); color: #fff; }
         
-        .hand-guide { font-size: 1.8rem; margin-bottom: -5px; animation: pointDown 1s infinite; }
-        .card { width: 92%; max-width: 400px; height: 85vh; background: var(--ivory); border: 8px double var(--gold); border-radius: 30px; position: relative; z-index: 10; box-shadow: 0 20px 40px rgba(0,0,0,0.2); overflow: hidden; text-align: center; }
-        .card-header { padding-top: 15px; cursor: pointer; }
-        .ganesha-svg { width: 80px; fill: var(--kumkum); filter: drop-shadow(0 2px 2px rgba(0,0,0,0.1)); }
-        .page { display: none; padding: 15px 25px 25px 25px; height: calc(100% - 110px); flex-direction: column; justify-content: space-between; box-sizing: border-box; animation: fadeIn 0.5s ease-in-out; }
-        .page.active { display: flex; }
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-        h1 { font-family: 'Kalam', cursive; color: var(--kumkum); margin: 5px 0; font-size: 1.8rem; }
-        .names { font-size: 2.2rem; color: var(--rani); font-weight: 700; border-bottom: 2px solid var(--gold); display: inline-block; padding-bottom: 5px; }
-        .humor-box { background: #FFF4E5; padding: 12px; border-radius: 15px; color: #5D4037; font-size: 0.85rem; line-height: 1.5; border: 1px dashed var(--kesariya); }
-        .btn-next { background: linear-gradient(45deg, var(--kumkum), var(--rani)); color: white; border: none; padding: 16px; border-radius: 50px; font-size: 1rem; font-weight: bold; cursor: pointer; box-shadow: 0 5px 15px rgba(183, 28, 28, 0.4); }
-        .event-card { background: white; padding: 10px; margin: 4px 0; border-radius: 12px; border-left: 5px solid var(--kesariya); text-align: left; box-shadow: 2px 2px 5px rgba(0,0,0,0.05); font-size: 0.9rem; }
-        .event-card b { color: var(--kumkum); }
-        .footer-links { font-size: 0.8rem; text-decoration: underline; color: var(--rani); cursor: pointer; display: block; margin: 5px 0; }
-        .contact-box { margin-top: 10px; font-size: 0.9rem; color: #333; background: #f0f0f0; padding: 8px; border-radius: 10px; }
-        .contact-box a { color: var(--kumkum); font-weight: bold; text-decoration: none; }
+        .btn-neon {
+            background: transparent;
+            border: 2px solid var(--neon-cyan);
+            color: #fff;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: inline-block;
+            margin-top: 15px;
+        }
+        .btn-neon:hover {
+            background: var(--neon-cyan);
+            color: #000;
+            box-shadow: 0 0 25px var(--neon-cyan);
+            transform: scale(1.05);
+        }
+
+        .btn-whatsapp {
+            background: transparent;
+            border: 2px solid #25d366;
+            color: #fff;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(37, 211, 102, 0.2);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: inline-block;
+            margin-top: 15px;
+            margin-right: 10px;
+        }
+        .btn-whatsapp:hover {
+            background: #25d366;
+            color: #fff;
+            box-shadow: 0 0 25px #25d366;
+            transform: scale(1.05);
+        }
+
+        .funny-relation-comment {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 15px;
+            border-radius: 12px;
+            border-left: 4px solid var(--neon-cyan);
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #fff;
+            margin-top: 15px;
+        }
+
+        .hidden { display: none !important; }
+        section { padding: 60px 20px; text-align: center; position: relative; z-index: 1; }
+        h2 { font-size: 2.5rem; margin-bottom: 30px; }
+
+        /* --- LANDING SCREEN & LANGUAGE SELECTOR --- */
+        #landing-hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+        #landing-hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite alternate;
+        }
+        #landing-hero p {
+            font-size: 1.3rem;
+            max-width: 600px;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+        .input-container {
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 320px;
+        }
+        .input-name {
+            width: 100%;
+            padding: 12px 20px;
+            font-size: 1.1rem;
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid var(--glass-border);
+            border-radius: 12px;
+            color: #fff;
+            text-align: center;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        .input-name:focus {
+            border-color: var(--neon-pink);
+            box-shadow: 0 0 15px rgba(255, 42, 116, 0.3);
+        }
+        .lang-container {
+            margin-bottom: 25px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .lang-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid var(--glass-border);
+            color: #fff;
+            padding: 10px 25px;
+            font-size: 1rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .lang-btn:hover, .lang-btn.active {
+            background: rgba(0, 243, 255, 0.15);
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.03); }
+        }
+
+        /* --- FAN CLUB SECTION --- */
+        .profile-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: center;
+            text-align: left;
+        }
+        @media(max-width: 768px) {
+            .profile-container { grid-template-columns: 1fr; text-align: center; }
+        }
+        .avatar-box {
+            font-size: 6rem;
+            background: rgba(255,255,255,0.05);
+            width: 180px;
+            height: 180px;
+            line-height: 180px;
+            border-radius: 50%;
+            margin: 0 auto;
+            border: 3px dashed var(--neon-pink);
+            animation: spin 20s linear infinite;
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        
+        .awards-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .award-item {
+            background: rgba(0,0,0,0.3);
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            border-left: 4px solid var(--neon-purple);
+        }
+
+        /* Stats Bars */
+        .stat-group { margin-bottom: 20px; }
+        .stat-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 0.95rem;
+        }
+        .stat-bar-bg {
+            background: rgba(255,255,255,0.1);
+            height: 15px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .stat-bar-fill {
+            height: 100%;
+            width: 0%;
+            border-radius: 10px;
+            transition: width 2s cubic-bezier(0.1, 1, 0.1, 1);
+        }
+        .stat-desc {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin-top: 3px;
+            font-style: italic;
+        }
+
+        /* --- QUEST ENGINE --- */
+        .quest-box { min-height: 340px; display: flex; flex-direction: column; justify-content: center; }
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        @media(max-width: 480px) { .options-grid { grid-template-columns: 1fr; } }
+        .opt-btn {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid var(--glass-border);
+            color: #fff;
+            padding: 15px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+        .opt-btn:hover { background: rgba(255, 255, 255, 0.2); transform: translateY(-2px); }
+        
+        .score-badge {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 5px 15px;
+            border-radius: 20px;
+            border: 1px solid var(--neon-green);
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 15px;
+            color: var(--neon-green);
+        }
+
+        /* --- VAULT & GIFT --- */
+        .chest-container, .gift-container {
+            font-size: 6rem;
+            cursor: pointer;
+            margin: 30px auto;
+            width: 150px;
+            transition: transform 0.3s ease;
+        }
+        .chest-container:hover, .gift-container:hover {
+            transform: scale(1.2) rotate(5deg);
+        }
+        .typing-box {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            min-height: 100px;
+            white-space: pre-line;
+            border-left: 3px solid var(--neon-pink);
+            padding-left: 15px;
+            text-align: left;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+        
+        /* Animated Cake */
+        .cake-icon {
+            font-size: 4rem;
+            animation: floatCake 3s ease-in-out infinite alternate;
+            margin-bottom: 15px;
+        }
+        @keyframes floatCake { 0% { transform: translateY(0); } 100% { transform: translateY(-15px); } }
+
+        .meme-zone {
+            background: rgba(0,0,0,0.4);
+            border: 2px dashed var(--neon-cyan);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+        .photo-placeholder {
+            width: 100%;
+            max-width: 350px;
+            height: 250px;
+            border: 2px dashed rgba(255,255,255,0.3);
+            margin: 20px auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 15px;
+            background: rgba(0,0,0,0.2);
+        }
+
+        /* --- CERTIFICATE --- */
+        #certificate-display {
+            background: linear-gradient(135deg, #1e112a 0%, #0f0718 100%);
+            border: 5px double gold;
+            padding: 40px;
+            border-radius: 15px;
+            position: relative;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
+            max-width: 650px;
+            margin: 25px auto;
+        }
+        #certificate-display h3 { color: gold; font-size: 1.8rem; margin-bottom: 20px; }
+        .cert-name { font-size: 2.5rem; font-weight: 800; color: #fff; text-decoration: underline var(--neon-pink); margin: 15px 0; }
+
+        /* --- ROAST METER --- */
+        #roast-display {
+            font-size: 1.3rem;
+            font-weight: 600;
+            min-height: 50px;
+            margin-top: 20px;
+            color: var(--neon-green);
+        }
+
+        /* --- FLOATING CONTROLS --- */
+        .audio-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+            background: rgba(0,0,0,0.7);
+            border: 1px solid var(--neon-cyan);
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 10px var(--neon-cyan);
+        }
     </style>
 </head>
 <body>
 
-    <div class="lang-switcher">
-        <span onclick="setLang('en')" id="en-btn" class="active">English</span>
-        <span onclick="setLang('hi')" id="hi-btn">हिन्दी</span>
-        <span onclick="setLang('aw')" id="aw-btn">अवधी</span>
-        <span onclick="setLang('jp')" id="jp-btn">日本語</span>
-    </div>
+    <div id="ambient-container"></div>
 
-    <div class="card">
-        <div class="card-header" onclick="nextPage(1)">
-            <svg class="ganesha-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12,2C10,2 7,3 6,5C5,7 6,9 7,10C6,11 4,12 4,15C4,18 7,21 12,22C17,21 20,18 20,15C20,12 18,11 17,10C18,9 19,7 18,5C17,3 14,2 12,2M12,4C14,4 16,4.5 16,5.5C16,6.5 15,7.5 12,7.5C9,7.5 8,6.5 8,5.5C8,4.5 10,4 12,4M12,9C15,9 17,10 17,12C17,14 15,14.5 12,14.5C9,14.5 7,14 7,12C7,10 9,9 12,9M12,16C15,16 18,17 18,19C18,20 16,21 12,21C8,21 6,20 6,19C6,17 9,16 12,16Z"/>
-            </svg>
-            <p style="font-size: 0.6rem; margin: 0; color: var(--gold);" data-en="Tap Ganesha for Home" data-hi="होम पेज के लिए गणेश जी को छुएं" data-aw="शुरुआत मा जाए खातिर गणेश जी का छुवा" data-jp="ホームに戻るにはガネーシャをタップしてください">Tap Ganesha for Home</p>
+    <button class="audio-control" onclick="toggleMute()" title="Toggle Ambience">
+        <i id="audio-icon" class="fa-solid fa-volume-xmark"></i>
+    </button>
+
+    <main id="landing-hero">
+        <h1 class="neon-text-pink">🎉 Welcome to the Official Gopal Fan Club 🎉</h1>
+        <p>The world's most exclusive club with exactly one VIP member.</p>
+  
+        <div class="input-container">
+            <input type="text" id="user-name-input" class="input-name" placeholder="Enter Your Name..." autocomplete="off">
         </div>
         
-        <div class="page active" id="page1">
-            <div>
-                <h1 data-en="Wedding Alert!" data-hi="शुभ निमंत्रण" data-aw="राम-राम! बियाह पक्का होइ गवा!" data-jp="結婚式のお知らせ！">Wedding Alert!</h1>
-                <p data-en="Sameer is finally hanging up his bachelor boots!" 
-                   data-hi="समीर अब 'कुंवारा दल' से इस्तीफा दे रहे हैं, खुशियों की नई पारी शुरू होने वाली है।" 
-                   data-aw="समीर भैया अब फँस गय हैं! अब घूमे-फिरे के दिन खतम, अब बस बिटिया का हुकुम चली।"
-                   data-jp="サミールがついに独身生活を卒業します！">
-                   Sameer is finally hanging up his bachelor boots!
-                </p>
-                <div class="humor-box" data-en="'Love is sweet, but the wedding paneer is sweeter!'" 
-                     data-hi="'शादी का लड्डू जो खाए वो भी पछताए, पर पनीर टिक्का छोड़ने वाला ज्यादा पछताए!'" 
-                     data-aw="'नेवता पहुँच गवा है, अब बस पत्तल चाटे का तैयारी करा जाय!'"
-                     data-jp="「愛は甘いですが、結婚式のパニールはもっと甘いです！」">
-                     'Love is sweet, but the wedding paneer is sweeter!'
-                </div>
-            </div>
-            <button class="btn-next" onclick="nextPage(2)" data-en="Meet the Couple ➡️" data-hi="दूल्हा-दुल्हन से मिलिए ➡️" data-aw="देखा जाय दुलहिन के है ➡️" data-jp="カップルに会う ➡️">Meet the Couple ➡️</button>
-            <div></div>
+        <div class="lang-container">
+            <button class="lang-btn active" id="btn-eng" onclick="selectLanguage('english')">English</button>
+            <button class="lang-btn" id="btn-hin" onclick="selectLanguage('hindi')">हिन्दी (Hindi)</button>
+            <button class="lang-btn" id="btn-mai" onclick="selectLanguage('maithili')">मैथिली (Maithili)</button>
         </div>
 
-        <div class="page" id="page2">
-            <div>
-                <h2 data-en="The Lucky Pair" data-hi="सुपरहिट जोड़ी" data-aw="राम-सिया क जोड़ी" data-jp="幸運な二人">The Lucky Pair</h2>
-                <div class="names">Sameer ❤️ Meera</div>
-                <p data-en="Sameer fell in love, but Meera made the plan!" 
-                   data-hi="समीर को प्यार हुआ, पर शादी का मास्टर प्लान तो मीरा का था।" 
-                   data-aw="समीर तौ डरत रहे, पै मीरा दीदी कहिन कि अब बचिके कहाँ जैहौ, बियाह तौ करे का परि।"
-                   data-jp="サミールが恋に落ち、ミーラが計画を立てました！">
-                   Sameer fell in love, but Meera made the plan!
-                </p>
-            </div>
-            <button class="btn-next" onclick="nextPage(3)" data-en="Schedule of Events 🍛" data-hi="कार्यक्रम की रूपरेखा 🍛" data-aw="नेग-चार क टेम 🍛" data-jp="スケジュール 🍛">Schedule of Events 🍛</button>
-            <div></div>
-        </div>
+        <button class="btn-neon" id="start-quest-btn" onclick="startQuest()">Start the Birthday Quest</button>
+    </main>
 
-        <div class="page" id="page3">
-            <div>
-                <h2 data-en="Save the Dates" data-hi="तिथियां नोट करें" data-aw="तारीख याद रक्खा" data-jp="日程">Save the Dates</h2>
-                <div class="event-card">
-                    <b data-en="May 4: Haldi" data-hi="04 मई: हल्दी की रस्म" data-aw="04 मई: हरदी चढ़ाई" data-jp="5月4日: ハルディ">May 4: Haldi</b><br>
-                    <span data-en="Applying yellow and getting messy." data-hi="समीर को आम की तरह पीला करने का दिन।" data-aw="भैया का नीक से हरदी पोता जाई।" data-jp="黄色の粉を塗る儀式。">Applying yellow and getting messy.</span>
-                </div>
-                <div class="event-card">
-                    <b data-en="May 5: The Wedding" data-hi="05 मई: शुभ विवाह" data-aw="05 मई: बियाह" data-jp="5月5日: 結婚式">May 5: The Wedding</b><br>
-                    <span data-en="The main deal (Tears guaranteed)." data-hi="फेरों का समय (टिशू साथ लाएं)।" data-aw="मंडप म बइठिहैं, सब जने आशीर्वाद दइ आवा।" data-jp="メインイベント（涙が保証されます）。">The main deal (Tears guaranteed).</span>
-                    <br><b>📍 Barat Route:</b> Maharajganj Grant, Gonda (U.P.) → Gram Kuchrupur, Pikora, Basti (U.P.)
-                </div>
-                <div class="event-card">
-                    <b data-en="May 7: Reception" data-hi="07 मई: आशीर्वाद एवं भोज" data-aw="07 मई: बड़का भोज" data-jp="5月7日: レセプション">May 7: Reception</b><br>
-                    <span data-en="Grand Feast (Eat till you can't walk)." data-hi="दावत का समय, पनीर पर हमला बोलें!" data-aw="जी भर के जीमे का है, केहू छूटे ना पावै।" data-jp="盛大な宴会。">Grand Feast (Eat till you can't walk).</span>
-                </div>
-            </div>
-            <button class="btn-next" onclick="nextPage(4)" data-en="Final Details 📍" data-hi="बस आखिरी जानकारी 📍" data-aw="कहाँ पहुँचै का है? 📍" data-jp="詳細 📍">Final Details 📍</button>
-            <div></div>       
-        </div>
+    <div id="main-content" class="hidden">
 
-        <div class="page" id="page4">
-            <div>
-                <h1 data-en="See You There!" data-hi="जरूर पधारें!" data-aw="सब परिवार आए का है!" data-jp="お待ちしております！">See You There!</h1>
-                 <p data-en="No gifts needed, just bring your appetite!" 
-                   data-hi="आपकी उपस्थिति ही हमारा सबसे बड़ा उपहार है।" 
-                   data-aw="कोऊ बहाना ना चली, सगुने मा आए का है।"
-				   data-jp="ギフトは不要です。食欲だけ持ってきてください！">
-                   No gifts needed, just bring your appetite!
-                </p>
-                <div class="event-card" style="text-align:center">
-                    <b>📍 Groom Location:</b> Maharajganj Grant, Gonda (U.P.) <br>
-					<b>📍 Bride Location:</b>  Gram Kuchrupur, Pikora, Basti (U.P.)				
+        <section id="fan-club">
+            <div class="glass-card">
+                <h2 class="neon-text-cyan"><i class="fa-solid fa-id-badge"></i> VIP Member Profile</h2>
+                <div class="profile-container">
+                    
+                    <div>
+                        <div class="avatar-box"><i class="fa-solid fa-user-astronaut" style="color: var(--neon-cyan);"></i></div>
+                        <h3 style="text-align:center; margin-top:15px; font-size:1.8rem;" id="profile-name">Gopal</h3>
+                        <div class="awards-list">
+                            <div class="award-item">🏆 Best Person Award</div>
+                            <div class="award-item">😴 Sleeping Champion</div>
+                            <div class="award-item">🍿 Master Chef</div>
+                            <div class="award-item">👔 Black Shawl Model</div>
+                            <div class="award-item" style="grid-column: span 2; text-align: center;">🍳 Master Chef (Preeti Verified)</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="stat-group">
+                            <div class="stat-label"><span>Happiness</span><span class="neon-text-cyan">99%</span></div>
+                            <div class="stat-bar-bg"><div class="stat-bar-fill" style="background: var(--neon-cyan);" data-width="99%"></div></div>
+                            <div class="stat-desc">Highest whenever Machhi Bhat is served.</div>
+                        </div>
+                        <div class="stat-group">
+                            <div class="stat-label"><span>Obedience Level</span><span class="neon-text-pink">100%</span></div>
+                            <div class="stat-bar-bg"><div class="stat-bar-fill" style="background: var(--neon-pink);" data-width="100%"></div></div>
+                            <div class="stat-desc">Responds at supersonic speeds to the keyword "Yo!".</div>
+                        </div>
+                        <div class="stat-group">
+                            <div class="stat-label"><span>Friendship Level</span><span style="color: gold;">Infinite ♾️</span></div>
+                            <div class="stat-bar-bg"><div class="stat-bar-fill" style="background: gold;" data-width="100%"></div></div>
+                            <div class="stat-desc">Tested, certified, and completely unshakeable.</div>
+                        </div>
+                        <div class="stat-group">
+                            <div class="stat-label"><span>Sofa Sleep Factor</span><span class="neon-text-green">5 Mins</span></div>
+                            <div class="stat-bar-bg"><div class="stat-bar-fill" style="background: var(--neon-green);" data-width="95%"></div></div>
+                            <div class="stat-desc">Maximum timeframe before unconsciousness hits.</div>
+                        </div>
+                        <div class="stat-group">
+                            <div class="stat-label"><span>Awesomeness</span><span style="color: #b10dc9;">103 kg</span></div>
+                            <div class="stat-bar-bg"><div class="stat-bar-fill" style="background: #b10dc9;" data-width="100%"></div></div>
+                            <div class="stat-desc">Premium Deluxe structural composition configuration.</div>
+                        </div>
+                    </div>
                 </div>
-				<div class="contact-box">
-                    📞 <span data-en="Contact Sameer:" data-hi="समीर से संपर्क करें:" data-aw="समीर भैया का नंबर:" data-jp="連絡先:">Contact Sameer:</span> 
-                    <a href="tel:+919236615361">9236615361</a>
+            </div>
+        </section>
+
+        <section id="birthday-quest">
+            <div class="glass-card">
+                <h2 class="neon-text-pink"><i class="fa-solid fa-gamepad"></i> The Ultimate Gopal Trivia</h2>
+                <div id="score-wrapper">
+                    <span class="score-badge"><span id="score-label">Score</span>: <span id="live-score">0</span> / <span id="total-questions-lbl">17</span></span>
                 </div>
-                <a href="https://claude.ai/public/artifacts/b2e223ff-94c2-479f-8f5c-379db72698db" class="footer-links" target="_blank" 
-                   data-en="See the Full Wedding Details 📜" 
-                   data-hi="पूरा डिजिटल कार्ड यहाँ देखें 📜" 
-                   data-aw="पूरी जानकारी खातिर इहाँ छुवा 📜"
-                   data-jp="結婚式の詳細を見る 📜">See the Full Wedding Details 📜</a>
+                <div id="quest-container" class="quest-box">
+                    </div>
             </div>
-            <div style="display:flex; gap:10px;">
-                <button class="btn-next" style="background:#007bff; flex:1" onclick="window.open('https://maps.app.goo.gl/xSFzCxAGXgfHoqnLA')">📍 Map</button>
-               <button class="btn-next" style="background:#25D366; flex:1" onclick="share(prompt('Enter Guest Name:', 'Sam'))">📲 Share</button>
+        </section>
+
+        <section id="birthday-vault" class="hidden">
+            <div class="glass-card">
+                <h2 class="neon-text-cyan"><i class="fa-solid fa-vault"></i> The Birthday Vault</h2>
+                <div id="vault-closed">
+                    <p id="vault-hint" style="margin-bottom: 15px;">The Quest is complete! Click the vault chest to unlock Gopal's secret message.</p>
+                    <div class="chest-container" onclick="unlockVault()">📁</div>
+                </div>
+                <div id="vault-opened" class="hidden">
+                    <div class="cake-icon">🎂</div>
+                    <div id="typing-msg" class="typing-box"></div>
+                </div>
             </div>
-        </div>
+        </section>
+
+        <section id="secret-gift" class="hidden">
+            <div class="glass-card">
+                <h2 class="neon-text-pink"><i class="fa-solid fa-gift"></i> Secret Gift Reveal</h2>
+                <div id="gift-box" class="gift-container" onclick="openGift()">🎁</div>
+                
+                <div id="gift-content" class="hidden">
+                    <h3 class="neon-text-cyan" style="font-size: 1.8rem; margin-bottom: 20px;">🎁 SURPRISE UNLOCKED 🎁</h3>
+                   
+                    <div class="meme-zone">
+                        <p style="font-size: 1.2rem; font-style: italic; color: gold;">
+                            "Legend says Gopal can finish snacks before anyone notices they were opened."
+                        </p>
+                    </div>
+
+                    <div class="photo-placeholder">
+                        <i class="fa-solid fa-image" style="font-size: 3rem; opacity: 0.5; margin-bottom: 10px;"></i>
+                        <p style="font-size: 0.9rem; opacity: 0.7;">[ Replace PHOTO_URL variable in JS script with Gopal's picture ]</p>
+                        <img id="gopal-img" src="" alt="Gopal" class="hidden" style="max-width:100%; max-height:100%; border-radius:10px;">
+                    </div>
+
+                    <div style="margin: 25px 0;">
+                        <h4 style="color: var(--neon-pink);">Personalized Message:</h4>
+                        <p id="gift-custom-msg" style="font-size: 1.1rem; margin-top: 5px;"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="interactive-features" class="hidden">
+            <div class="glass-card">
+                <h2 class="neon-text-cyan"><i class="fa-solid fa-fire"></i> The Gopal Roast Meter</h2>
+                <p id="roast-instruction">Click the button below to generate a warm, completely accurate friendly roast.</p>
+                <button class="btn-neon" id="roast-btn-text" onclick="generateRoast()">Generate Friendly Roast</button>
+                <div id="roast-display"></div>
+            </div>
+
+            <div class="glass-card">
+                <h2 class="neon-text-pink"><i class="fa-solid fa-award"></i> Fan Club Perks</h2>
+                <button class="btn-neon" id="cert-btn-text" onclick="showCertificate()">Generate Membership Certificate</button>
+                
+                <div id="certificate-container" class="hidden">
+                    <div id="certificate-display">
+                        <h3>🏅 OFFICIAL CERTIFICATE OF GREATNESS 🏅</h3>
+                        <p>This certifies that</p>
+                        <div class="cert-name">Gopal</div>
+                        <p>has been officially inducted into the</p>
+                        <p style="font-weight: 600; color: var(--neon-cyan); margin: 5px 0;">Official Gopal Fan Club</p>
+                        <p style="margin-top:15px; font-size: 0.95rem; opacity: 0.9;">For outstanding achievements in:</p>
+                        <ul style="list-style: none; margin: 10px 0; font-size: 0.9rem; line-height: 1.6; color: var(--neon-green);">
+                            <li>🌟 Being an awesome friend</li>
+                            <li>🏡 Being the best neighbor</li>
+                            <li>🍿 Consuming snacks at world-record speed</li>
+                            <li>🎉 Making life more fun</li>
+                        </ul>
+                        <p style="margin-top: 15px; font-size:0.85rem;">Validity: <span style="color: gold;">Forever ♾️</span></p>
+                        <p style="margin-top: 25px; font-size:0.8rem; font-style:italic; opacity: 0.7;">Signed: The Fan Club Committee</p>
+                    </div>
+                    <button class="btn-neon" onclick="window.print()" style="font-size:0.9rem; padding: 8px 20px;"><i class="fa-solid fa-print"></i> Print Certificate</button>
+                </div>
+            </div>
+        </section>
+
     </div>
 
     <script>
-        function setLang(lang) {
-            document.querySelectorAll('.lang-switcher span').forEach(s => s.classList.remove('active'));
-            document.getElementById(lang + '-btn').classList.add('active');
-            document.querySelectorAll('[data-en]').forEach(el => {
-                el.innerText = el.getAttribute('data-' + lang);
+        let audioCtx;
+        function initAudio() {
+            if(!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+        function toggleMute() {
+            initAudio();
+            const icon = document.getElementById('audio-icon');
+            if(icon.classList.contains('fa-volume-xmark')) {
+                icon.classList.remove('fa-volume-xmark');
+                icon.classList.add('fa-volume-high');
+                playAmbientNote(440, 0.1);
+            } else {
+                icon.classList.remove('fa-volume-high');
+                icon.classList.add('fa-volume-xmark');
+            }
+        }
+        function playAmbientNote(freq, duration) {
+            if (!audioCtx || document.getElementById('audio-icon').classList.contains('fa-volume-xmark')) return;
+            let osc = audioCtx.createOscillator();
+            let gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.frequency.value = freq;
+            gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+            osc.start();
+            osc.stop(audioCtx.currentTime + duration);
+        }
+    </script>
+
+    <script>
+        /* ==========================================
+           CUSTOMIZABLE VARIABLES
+           ========================================== */
+        const FRIEND_NAME = "Gopal";
+        const BIRTHDAY_MESSAGE = `Dear Gopal,\nThank you for being an amazing person.\nMay your 40th milestone year be filled with happiness, success, laughter, unforgettable WhatsApp travel groups, and unlimited snacks.\n\nHappy Birthday! 🎂🎉\nWe will always be cheering for you!`;
+        const PHOTO_URL = "";
+        const GIFT_MESSAGE = "Unlimited happiness, premium Machhi Bhat, and exemption from kitchen assignments!";
+        const GOPAL_WHATSAPP = "919999999999"; // Replace with real phone digits if desired
+        
+        let selectedLang = "english";
+        let userName = "Anonymous Friend";
+
+        /* ==========================================
+           TRANSLATED QUESTION SET DATASET
+           ========================================== */
+        const dynamicQuestionsTranslations = {
+            english: [
+                {
+                    question: "What is Gopal's true superpower?",
+                    options: ["Sleeping", "Cooking", "Traveling", "Doing whatever Preeti says"],
+                    correctAnswer: "Doing whatever Preeti says"
+                },
+                {
+                    question: "What is Gopal's official weight category?",
+                    options: ["60", "80", "110+", "100+"],
+                    correctAnswer: "100+"
+                },
+                {
+                    question: "Why is Gopal considered a legendary cook?",
+                    options: ["His food is delicious", "He can cook for an army", "He cooks whenever Preeti volunteers him", "All of the Above"],
+                    correctAnswer: "All of the Above"
+                },
+                {
+                    question: "What does Preeti call Gopal most often?",
+                    options: ["Uncle", "Boss", "Yo", "Superman"],
+                    correctAnswer: "Yo"
+                },
+                {
+                    question: "What happens when Gopal sits on a sofa for 5 minutes?",
+                    options: ["He starts dancing", "He starts cooking", "He starts sleeping", "He starts traveling"],
+                    correctAnswer: "He starts sleeping"
+                },
+                {
+                    question: "Gopal is turning...",
+                    options: ["18", "25", "40", "100"],
+                    correctAnswer: "40"
+                },
+                {
+                    question: "What happens when Gopal and Anil plan a trip together?",
+                    options: ["They travel immediately", "They book tickets", "They make a WhatsApp group", "Nothing happens"],
+                    correctAnswer: "They make a WhatsApp group"
+                },
+                {
+                    question: "What is the meaning of 'Yo' in Gopal's house?",
+                    options: ["Hello", "Good morning", "Come here, I need help", "Party time"],
+                    correctAnswer: "Come here, I need help"
+                },
+                {
+                    question: "What is Gopal's shoe size?",
+                    options: ["7", "8", "9", "10"],
+                    correctAnswer: "8"
+                },
+                {
+                    question: "Which T-shirt size unlocks Gopal's full power?",
+                    options: ["XL", "XXL", "XXXL", "XXXXL"],
+                    correctAnswer: "XXXXL"
+                },
+                {
+                    question: "What is Gopal's favorite food?",
+                    options: ["Pizza", "Burger", "Machhi Bhat", "Biryani"],
+                    correctAnswer: "Machhi Bhat"
+                },
+                {
+                    question: "What is Gopal's favorite color?",
+                    options: ["Blue", "Green", "Red", "Black"],
+                    correctAnswer: "Red"
+                },
+                {
+                    question: "Who is Gopal's favorite person?",
+                    options: ["Anil", "Preeti", "R ishika", "Office Boss"],
+                    correctAnswer: "R ishika"
+                },
+                {
+                    question: "What is Gopal's favorite outfit?",
+                    options: ["Suit and Tie", "Kurta", "Black Shawl", "Jeans and T-shirt"],
+                    correctAnswer: "Black Shawl"
+                },
+                {
+                    question: "According to official records, what is Gopal's birth year?",
+                    options: ["2085", "2086", "2087", "2088"],
+                    correctAnswer: "2087"
+                },
+                {
+                    question: "According to family knowledge, what is Gopal's actual birth year?",
+                    options: ["2085", "2086", "2087", "2088"],
+                    correctAnswer: "2086"
+                },
+                {
+                    question: "👑 Final Boss Question: Who is the most awesome birthday person today?",
+                    options: ["Gopal", "Gopal", "Gopal", "All of the Above"],
+                    correctAnswer: "All of the Above"
+                }
+            ],
+            hindi: [
+                {
+                    question: "गोपाल की असली सुपरपावर क्या है?",
+                    options: ["सोना", "खाना बनाना", "घूमना", "प्रीति जो कहे वही करना"],
+                    correctAnswer: "प्रीति जो कहे वही करना"
+                },
+                {
+                    question: "गोपाल का आधिकारिक वजन वर्ग क्या है?",
+                    options: ["60", "80", "110+", "100+"],
+                    correctAnswer: "100+"
+                },
+                {
+                    question: "गोपाल को महान रसोइया क्यों माना जाता है?",
+                    options: ["उनका खाना स्वादिष्ट है", "वो पूरी सेना को खिला सकते हैं", "प्रीति के कहने पर तुरंत किचन पहुँच जाते हैं", "ऊपर के सभी"],
+                    correctAnswer: "ऊपर के सभी"
+                },
+                {
+                    question: "प्रीति गोपाल को सबसे ज़्यादा क्या कहकर बुलाती हैं?",
+                    options: ["अंकल", "बॉस", "यो", "सुपरमैन"],
+                    correctAnswer: "यो"
+                },
+                {
+                    question: "गोपाल 5 मिनट सोफे पर बैठ जाएँ तो क्या होता है?",
+                    options: ["डांस शुरू", "कुकिंग शुरू", "नींद शुरू", "यात्रा शुरू"],
+                    correctAnswer: "नींद शुरू"
+                },
+                {
+                    question: "गोपाल कितने साल के हो रहे हैं?",
+                    options: ["18", "25", "40", "100"],
+                    correctAnswer: "40"
+                },
+                {
+                    question: "गोपाल और अनिल ट्रिप प्लान करें तो क्या होता है?",
+                    options: ["तुरंत निकल पड़ते हैं", "टिकट बुक करते हैं", "व्हाट्सऐप ग्रुप बनता है", "कुछ नहीं होता"],
+                    correctAnswer: "व्हाट्सऐप ग्रुप बनता है"
+                },
+                {
+                    question: "'यो' का मतलब गोपाल के घर में क्या है?",
+                    options: ["नमस्ते", "सुप्रभात", "इधर आओ, काम है", "पार्टी टाइम"],
+                    correctAnswer: "इधर आओ, काम है"
+                },
+                {
+                    question: "गोपाल का जूते का नंबर क्या है?",
+                    options: ["7", "8", "9", "10"],
+                    correctAnswer: "8"
+                },
+                {
+                    question: "कौन सा टी-शर्ट साइज गोपाल की पूरी ताकत खोल देता है?",
+                    options: ["XL", "XXL", "XXXL", "XXXXL"],
+                    correctAnswer: "XXXXL"
+                },
+                {
+                    question: "गोपाल का पसंदीदा खाना क्या है?",
+                    options: ["पिज्जा", "बर्गर", "मछली भात", "बिरयानी"],
+                    correctAnswer: "मछली भात"
+                },
+                {
+                    question: "गोपाल का पसंदीदा रंग कौन सा है?",
+                    options: ["नीला", "हरा", "लाल", "काला"],
+                    correctAnswer: "लाल"
+                },
+                {
+                    question: "गोपाल की सबसे पसंदीदा व्यक्ति कौन है? 😏",
+                    options: [
+                        "अनिल (यात्रा योजना मंत्री)",
+                        "प्रीति (काम वितरण विभाग)",
+                        "ईशिका... अरे नहीं! ऋषिका 😅",
+                        "ऑफिस बॉस (बिलकुल नहीं)"
+                    ],
+                    correctAnswer: "ईशिका... अरे नहीं! ऋषिका 😅"
+                },
+                {
+                    question: "गोपाल का पसंदीदा पहनावा क्या है?",
+                    options: ["सूट-टाई", "कुर्ता", "काला शॉल", "जीन्स और टी-शर्ट"],
+                    correctAnswer: "काला शॉल"
+                },
+                {
+                    question: "सरकारी रिकॉर्ड के अनुसार गोपाल का जन्म वर्ष क्या है?",
+                    options: ["2085", "2086", "2087", "2088"],
+                    correctAnswer: "2087"
+                },
+                {
+                    question: "घर वालों के अनुसार गोपाल का असली जन्म वर्ष क्या है?",
+                    options: ["2085", "2086", "2087", "2088"],
+                    correctAnswer: "2086"
+                },
+                {
+                    question: "👑 फाइनल बॉस प्रश्न: आज का सबसे शानदार जन्मदिन वाला इंसान कौन है?",
+                    options: ["गोपाल", "गोपाल", "गोपाल", "ऊपर के सभी"],
+                    correctAnswer: "ऊपर के सभी"
+                }
+            ],
+            maithili: [
+                {
+                    question: "गोपाल जी के असली सुपरपावर की अछि?",
+                    options: ["सुतल", "रान्हल", "घुमल", "प्रीति भौजी जे कहथि से करल"],
+                    correctAnswer: "प्रीति भौजी जे कहथि से करल"
+                },
+                {
+                    question: "गोपाल जी के आधिकारिक वजन वर्ग की अछि?",
+                    options: ["60", "80", "110+", "100+"],
+                    correctAnswer: "100+"
+                },
+                {
+                    question: "गोपाल जी के महान रसोइया किएक कहल जाइत अछि?",
+                    options: ["स्वादिष्ट भोजन बनबैत छथि", "पूरा सेना के खुआ सकैत छथि", "भौजी कहैत छथि तऽ तुरन्त किचन पहुँचैत छथि", "ई सभ"],
+                    correctAnswer: "ई सभ"
+                },
+                {
+                    question: "प्रीति भौजी गोपाल जी के बेसी की कहैत छथि?",
+                    options: ["अंकल", "बॉस", "यो", "सुपरमैन"],
+                    correctAnswer: "यो"
+                },
+                {
+                    question: "गोपाल जी 5 मिनट सोफा पर बैसल रहथि तऽ की होइत अछि?",
+                    options: ["नाच शुरू", "रान्हब शुरू", "निन्न शुरू", "घुमब शुरू"],
+                    correctAnswer: "निन्न शुरू"
+                },
+                {
+                    question: "गोपाल जी आब कतबा बरख के भऽ रहल छथि?",
+                    options: ["18", "25", "40", "100"],
+                    correctAnswer: "40"
+                },
+                {
+                    question: "गोपाल जी आ अनिल जी यात्रा योजना बनाबथि तऽ की होइत अछि?",
+                    options: ["तुरन्त निकलि जाइत छथि", "टिकट कटबैत छथि", "व्हाट्सऐप ग्रुप बनैत अछि", "किछु नहि होइत अछि"],
+                    correctAnswer: "व्हाट्सऐप ग्रुप बनैत अछि"
+                },
+                {
+                    question: "'यो' शब्द के असली मतलब की अछि?",
+                    options: ["नमस्कार", "सुप्रभात", "एतय आउ, काज अछि", "पार्टी टाइम"],
+                    correctAnswer: "एतय आउ, काज अछि"
+                },
+                {
+                    question: "गोपाल जी के जूता नंबर की अछि?",
+                    options: ["7", "8", "9", "10"],
+                    correctAnswer: "8"
+                },
+                {
+                    question: "कोन टी-शर्ट साइज पर गोपाल जी के पूरा पावर अनलॉक होइत अछि?",
+                    options: ["XL", "XXL", "XXXL", "XXXXL"],
+                    correctAnswer: "XXXXL"
+                },
+                {
+                    question: "गोपाल जी के पसंदीदा भोजन की अछि?",
+                    options: ["पिज्जा", "बर्गर", "माछ-भात", "बिरयानी"],
+                    correctAnswer: "माछ-भात"
+                },
+                {
+                    question: "गोपाल जी के पसंदीदा रंग की अछि?",
+                    options: ["नीला", "हरियर", "लाल", "काल्ह"],
+                    correctAnswer: "लाल"
+                },
+                {
+                    question: "गोपाल जी के सबसे प्रिय व्यक्ति के छथि? 😏",
+                    options: [
+                        "अनिल (यात्रा योजना मंत्री)",
+                        "प्रीति भौजी (काज बाँट विभाग)",
+                        "ईशिका... अरे नै! ऋषिका 😅",
+                        "ऑफिस बॉस (कदापि नै)"
+                    ],
+                    correctAnswer: "ईशिका... अरे नै! ऋषिका 😅"
+                },
+                {
+                    question: "गोपाल जी के पसंदीदा पहनावा की अछि?",
+                    options: ["सूट-टाई", "कुर्ता", "काल्ह शॉल", "जीन्स-टीशर्ट"],
+                    correctAnswer: "काल्ह शॉल"
+                },
+                {
+                    question: "सरकारी कागज के अनुसार गोपाल जी के जन्म वर्ष की अछि?",
+                    options: ["2085", "2086", "2087", "2088"],
+                    correctAnswer: "2087"
+                },
+                {
+                    question: "घर परिवार के अनुसार गोपाल जी के असली जन्म वर्ष की अछि?",
+                    options: ["2085", "2086", "2087", "2088"],
+                    correctAnswer: "2086"
+                },
+                {
+                    question: "👑 फाइनल बॉस प्रश्न: आइ के सबसे शानदार जन्मदिन वाला व्यक्ति के छथि?",
+                    options: ["गोपाल", "गोपाल", "गोपाल", "ई सभ"],
+                    correctAnswer: "ई सभ"
+                }
+            ]
+        };
+
+        /* UI String Multi-language Configuration */
+        const UI_TEXT = {
+            english: { score: "Score", vaultHint: "The Quest is complete! Click the vault chest to unlock Gopal's secret message.", roastInst: "Click the button below to generate a warm, completely accurate friendly roast.", roastBtn: "Generate Friendly Roast", certBtn: "Generate Membership Certificate" },
+            hindi: { score: "अंक", vaultHint: "क्वेस्ट पूरा हो गया है! गोपाल का गुप्त संदेश देखने के लिए तिजोरी पर क्लिक करें।", roastInst: "एकदम सटीक और मज़ेदार रोस्ट जनरेट करने के लिए नीचे दिए गए बटन पर क्लिक करें।", roastBtn: "मजेदार रोस्ट जनरेट करें", certBtn: "मेम्बरशिप सर्टिफिकेट प्राप्त करें" },
+            maithili: { score: "अंक", vaultHint: "क्वेस्ट पूरा भऽ गेल! गोपाल जी के गुप्त संदेश अनलॉक करबाक लेल तिजोरी पर क्लिक करू।", roastInst: "एकदम सटीक आ मज़ेदार रोस्ट जनरेट करबाक लेल नीचा देल बटन पर क्लिक करू।", roastBtn: "मजेदार रोस्ट जनरेट करू", certBtn: "मेम्बरशिप सर्टिफिकेट प्राप्त करू" }
+        };
+
+        /* ==========================================
+           LANGUAGE SELECTION MECHANIC
+           ========================================== */
+        function selectLanguage(lang) {
+            selectedLang = lang;
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            if(lang === 'english') document.getElementById('btn-eng').classList.add('active');
+            if(lang === 'hindi') document.getElementById('btn-hin').classList.add('active');
+            if(lang === 'maithili') document.getElementById('btn-mai').classList.add('active');
+
+            const startBtn = document.getElementById('start-quest-btn');
+            if(lang === 'english') startBtn.innerText = "Start the Birthday Quest";
+            else if(lang === 'hindi') startBtn.innerText = "बर्थडे क्वेस्ट शुरू करें";
+            else if(lang === 'maithili') startBtn.innerText = "बर्थडे क्वेस्ट शुरू करू";
+        }
+
+        /* ==========================================
+           AMBIENT EFFECT GENERATION
+           ========================================== */
+        const colors = ['#ff2a74', '#00f3ff', '#b10dc9', '#39ff14', '#ffd700'];
+        const ambientContainer = document.getElementById('ambient-container');
+        
+        for (let i = 0; i < 20; i++) {
+            let balloon = document.createElement('div');
+            balloon.classList.add('balloon');
+            balloon.style.setProperty('--start-x', Math.random() * 100 + 'vw');
+            balloon.style.setProperty('--end-x', Math.random() * 100 + 'vw');
+            balloon.style.background = colors[Math.floor(Math.random() * colors.length)];
+            balloon.style.animationDelay = (Math.random() * 15) + 's';
+            balloon.style.width = Math.random() * 30 + 20 + 'px';
+            balloon.style.height = (parseFloat(balloon.style.width) * 1.25) + 'px';
+            ambientContainer.appendChild(balloon);
+        }
+
+        /* ==========================================
+           CASE-INSENSITIVE REGEX DUAL-LANGUAGE ENGINE 
+           ========================================== */
+        function getDualRelationshipComments(name) {
+            let cleanName = name.trim();
+            let cleanCapitalized = cleanName.charAt(0).toUpperCase() + cleanName.slice(1);
+            
+            let englishText = "";
+            let hindiText = "";
+
+            // Regular Expressions with case-insensitive '/i' flag
+            const preetiRegex = /preeti/i;
+            const anilRegex = /anil/i;
+
+            if (preetiRegex.test(cleanName)) {
+                englishText = "Preeti & Gopal's Secret Equation: Preeti designs the kitchen menu, volunteers Gopal's culinary skills for entire armies, and monitors his sofa nap timings. Meanwhile, Gopal executes every order with 100% supersonic obedience. True love is having someone who gives you a high-level corporate designation right in your own living room! ✨";
+                hindiText = "प्रीति और गोपाल का गुप्त समीकरण: प्रीति किचन का मेन्यू डिज़ाइन करती हैं, पूरी सेना के लिए गोपाल के कुकिंग टैलेंट को वॉलंटियर करती हैं, और सोफे पर उनकी झपकी के समय पर नज़र रखती हैं। इस बीच, गोपाल 100% सुपरसोनिक आज्ञाकारिता के साथ हर ऑर्डर को पूरा करते हैं। सच्चा प्यार वो है जो आपको अपने ही लिविंग रूम में एक हाई-लेवल कॉर्पोरेट पद दिला दे! ✨";
+            }
+            else if (anilRegex.test(cleanName)) {
+                englishText = "Anil & Gopal's Travel Matrix: Legend has it that whenever these two legendary masterminds plan an epic journey, they construct pristine WhatsApp groups that stand as historical monuments of friendship. They care for each other so much that no trip is ever taken without at least 500 unread planning notifications first! ✈️";
+                hindiText = "अनिल और गोपाल का ट्रैवल मैट्रिक्स: किंवदंती है कि जब भी ये दो दिग्गज किसी यात्रा की योजना बनाते हैं, तो वे प्राचीन व्हाट्सएप ग्रुप बनाते हैं जो दोस्ती के ऐतिहासिक स्मारक के रूप में खड़े होते हैं। वे एक-दूसरे की इतनी परवाह करते हैं कि कम से कम 500 अनरीड प्लानिंग नोटिफिकेशन के बिना कोई ट्रिप शुरू ही नहीं होती! ✈️";
+            }
+            else {
+                englishText = `${cleanCapitalized} & Gopal Bond Matrix: Both of them share an incredibly caring dynamic! ${cleanCapitalized} makes sure Gopal never sits on a sofa alone for more than 5 minutes without checking if he's awake, and Gopal ensures that any snacks anywhere in the vicinity vanish into thin air just to keep the area safe. Mutual care at its finest! 🍿`;
+                hindiText = `${cleanCapitalized} और गोपाल का बॉन्ड मैट्रिक्स: दोनों एक बहुत ही केयरिंग डायनामिक शेयर करते हैं! ${cleanCapitalized} यह सुनिश्चित करते हैं कि गोपाल कभी भी सोफे पर 5 मिनट से अधिक अकेले न बैठें (यह देखने के लिए कि वह जाग रहे हैं या नहीं), और गोपाल यह सुनिश्चित करते हैं कि आस-पास के सभी स्नैक्स गायब हो जाएं ताकि इलाका सुरक्षित रहे। आपसी देखभाल का बेहतरीन उदाहरण! 🍿`;
+            }
+
+            return { english: englishText, hindi: hindiText };
+        }
+
+        /* ==========================================
+           SEND DUAL RESULTS VIA WHATSAPP
+           ========================================= */
+        function sendResultToGopalWhatsApp() {
+            const totalQ = dynamicQuestionsTranslations[selectedLang].length;
+            const comments = getDualRelationshipComments(userName);
+            
+            let message = `*🎉 Gopal's Birthday Quest Result! 🎉*\n\n`;
+            message += `👤 *Attempter:* ${userName}\n`;
+            message += `📊 *Final Score:* ${score} / ${totalQ}\n\n`;
+            message += `🇬🇧 *English Comment:* \n_${comments.english}_\n\n`;
+            message += `🇮🇳 *Hindi Comment:* \n_${comments.hindi}_\n\n`;
+            message += `🔗 Take the quiz and test your bond!`;
+
+            let encodedText = encodeURIComponent(message);
+            let whatsappURL = `https://api.whatsapp.com/send?phone=${GOPAL_WHATSAPP}&text=${encodedText}`;
+            
+            window.open(whatsappURL, '_blank');
+        }
+
+        /* ==========================================
+           CORE NAVIGATION ENGINE
+           ========================================== */
+        function startQuest() {
+            const nameInput = document.getElementById('user-name-input').value;
+            if (nameInput && nameInput.trim() !== "") {
+                userName = nameInput.trim();
+            }
+
+            initAudio();
+            confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
+            document.getElementById('landing-hero').classList.add('hidden');
+
+            document.getElementById('score-label').innerText = UI_TEXT[selectedLang].score;
+            document.getElementById('total-questions-lbl').innerText = dynamicQuestionsTranslations[selectedLang].length;
+            document.getElementById('vault-hint').innerText = UI_TEXT[selectedLang].vaultHint;
+            document.getElementById('roast-instruction').innerText = UI_TEXT[selectedLang].roastInst;
+            document.getElementById('roast-btn-text').innerText = UI_TEXT[selectedLang].roastBtn;
+            document.getElementById('cert-btn-text').innerText = UI_TEXT[selectedLang].certBtn;
+
+            const mainContent = document.getElementById('main-content');
+            mainContent.classList.remove('hidden');
+            setTimeout(() => {
+                const fills = document.querySelectorAll('.stat-bar-fill');
+                fills.forEach(bar => {
+                    bar.style.width = bar.getAttribute('data-width');
+                });
+            }, 300);
+            renderQuestStage();
+        }
+
+        /* ==========================================
+           DYNAMIC ENGINE HANDLING STAGES
+           ========================================== */
+        let currentStageIdx = 0;
+        let score = 0;
+
+        function renderQuestStage() {
+            const container = document.getElementById('quest-container');
+            container.innerHTML = ""; 
+            
+            document.getElementById('live-score').innerText = score;
+            const currentQ = dynamicQuestionsTranslations[selectedLang][currentStageIdx];
+            const totalQ = dynamicQuestionsTranslations[selectedLang].length;
+
+            let optionsHTML = "";
+            currentQ.options.forEach((opt) => {
+                optionsHTML += `<button class="opt-btn" onclick="evaluateAnswer('${opt.replace(/'/g, "\\'")}')">${opt}</button>`;
             });
-            if(lang === 'jp') document.body.classList.add('jp-font');
-            else document.body.classList.remove('jp-font');
+            let headingLabel = selectedLang === 'english' ? "Question" : (selectedLang === 'hindi' ? "प्रश्न" : "प्रश्न");
+            let ofLabel = selectedLang === 'english' ? "of" : (selectedLang === 'hindi' ? "का" : "सऽ");
+            container.innerHTML = `
+                <h3>${headingLabel} ${currentStageIdx + 1} ${ofLabel} ${totalQ}</h3>
+                <p style="margin: 15px 0; font-size:1.15rem; font-weight:600; color:var(--neon-cyan);">${currentQ.question}</p>
+                <div class="options-grid">${optionsHTML}</div>
+            `;
         }
 
-        function nextPage(n) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById('page' + n).classList.add('active');
+        function evaluateAnswer(selectedVal) {
+            const currentQ = dynamicQuestionsTranslations[selectedLang][currentStageIdx];
+            const buttons = document.querySelectorAll('.opt-btn');
+            
+            buttons.forEach(btn => btn.removeAttribute('onclick'));
+            let targetButton = Array.from(buttons).find(b => b.innerText === selectedVal);
+            if(selectedVal === currentQ.correctAnswer) {
+                score++;
+                document.getElementById('live-score').innerText = score;
+                playAmbientNote(600, 0.1);
+                if(targetButton) {
+                    targetButton.style.background = 'rgba(57, 255, 20, 0.3)';
+                    targetButton.style.borderColor = 'var(--neon-green)';
+                    targetButton.innerHTML = "✅ " + (selectedLang === 'english' ? "Correct!" : "सही!");
+                }
+                confetti({ particleCount: 25, spread: 35 });
+            } else {
+                playAmbientNote(150, 0.2);
+                if(targetButton) {
+                    targetButton.style.background = 'rgba(255, 42, 116, 0.3)';
+                    targetButton.style.borderColor = 'var(--neon-pink)';
+                    targetButton.innerHTML = "❌ " + (selectedLang === 'english' ? "Wrong!" : "गलत!");
+                }
+                let correctBtn = Array.from(buttons).find(b => b.innerText === currentQ.correctAnswer);
+                if(correctBtn) correctBtn.style.borderColor = 'var(--neon-green)';
+            }
+
+            transitionToNext();
         }
 
-        function share(guestName = "अतिथि") {
-    const inviteLink = window.location.href;
-    const detailLink = "https://claude.ai/public/artifacts/b2e223ff-94c2-479f-8f5c-379db72698db";
-    
-    // Detect current language from the active button
-    const activeLang = document.querySelector('.lang-switcher span.active').id.split('-')[0];
-    
-    let messageText = "";
+        function transitionToNext() {
+            setTimeout(() => {
+                if(currentStageIdx < dynamicQuestionsTranslations[selectedLang].length - 1) {
+                    currentStageIdx++;
+                    renderQuestStage();
+                } else {
+                    displayQuestSummary();
+                }
+            }, 1500);
+        }
 
-    if (activeLang === 'en') {
-        messageText = `Hello ${guestName}! 🙏\n` +
-            `Please accept the wedding invitation of Sameer & Meera. ❤️\n\n` +
-            `View Digital Card: ${inviteLink}\n` +
-            `Detailed Info: ${detailLink}`;
-    } else if (activeLang === 'jp') {
-        messageText = `こんにちは ${guestName} さん! 🙏\n` +
-            `サミールとミーラの結婚式の招待状をお受け取りください。 ❤️\n\n` +
-            `デジタルカードを見る: ${inviteLink}\n` +
-            `詳細情報: ${detailLink}`;
-    } else {
-        // Defaults to Hindi for 'hi' and 'aw'
-        messageText = `नमस्ते ${guestName} जी! 🙏\n` +
-            `समीर और मीरा के विवाह का निमंत्रण स्वीकार करें। ❤️\n\n` +
-            `डिजिटल कार्ड देखें: ${inviteLink}\n` +
-            `विस्तृत जानकारी (Details): ${detailLink}`;
-    }
+        /* ==========================================
+           DISPLAY DUAL LAYOUT RESULTS
+           ========================================== */
+        function displayQuestSummary() {
+            const container = document.getElementById('quest-container');
+            const totalQ = dynamicQuestionsTranslations[selectedLang].length;
+            let evaluationPhrase = "";
+            let btnLabel = "Open the Birthday Vault";
+            let waBtnLabel = "Send Result to Gopal 💬";
+            
+            if(selectedLang === 'english') {
+                btnLabel = "Open the Birthday Vault";
+                waBtnLabel = "Send Result to Gopal 💬";
+                if(score === totalQ) evaluationPhrase = "Absolute Legend Status! You know Gopal down to his birth certificate years and T-shirt sizes!";
+                else if(score >= 12) evaluationPhrase = "Impressive Score! You definitely understand the structural meaning of 'Yo'!";
+                else if(score >= 6) evaluationPhrase = "Good attempt! But you need to share some Machhi Bhat with Gopal to level up.";
+                else evaluationPhrase = "Gopal demands you create a WhatsApp group with Anil to reconsider your lifecycle parameters!";
+            } else if(selectedLang === 'hindi') {
+                btnLabel = "बर्थडे तिजोरी खोलें";
+                waBtnLabel = "गोपाल को रिज़ल्ट भेजें 💬";
+                if(score === totalQ) evaluationPhrase = "शानदार! आप गोपाल को उनके सरकारी बर्थ सर्टिफिकेट से लेकर उनके टी-शर्ट साइज तक बिल्कुल सटीक जानते हैं।";
+                else if(score >= 12) evaluationPhrase = "बेहतरीन स्कोर! आप निश्चित रूप से 'यो' शब्द की गहराई को समझते हैं।";
+                else if(score >= 6) evaluationPhrase = "अच्छा प्रयास! लेकिन लेवल अप करने के लिए आपको गोपाल के साथ मछली भात शेयर करना पड़ेगा।";
+                else evaluationPhrase = "गोपाल चाहते हैं कि आप अनिल के साथ तुरंत एक व्हाट्सऐप ग्रुप बनाएं और नियमों को दोबारा समझें!";
+            } else {
+                btnLabel = "बर्थडे तिजोरी खोलू";
+                waBtnLabel = "गोपाल जी केँ रिज़ल्ट पठाउ 💬";
+                if(score === totalQ) evaluationPhrase = "अद्भुत! अहाँ गोपाल जी के सरकारी कागज सऽ लऽ कऽ टी-शर्ट साइज तक एकदम नीक जकाँ जानैत छियनि।";
+                else if(score >= 12) evaluationPhrase = "बहुत नीक स्कोर! अहाँ 'यो' शब्दक असली मतलब बुझैत छियनि।";
+                else if(score >= 6) evaluationPhrase = "नीक प्रयास! मुदा अहाँक आब गोपाल जी के संग माछ-भात खाय पड़त।";
+                else evaluationPhrase = "गोपाल जी कहैत छथि जे अनिल जी के संग तुरन्त व्हाट्सऐप ग्रुप बनाउ आ फेर सऽ सोचू!";
+            }
 
-    const message = encodeURIComponent(messageText);
-    window.open("https://wa.me/?text=" + message);
-}
+            const comments = getDualRelationshipComments(userName);
 
-        setInterval(() => {
-            const f = document.createElement('div');
-            f.classList.add('flower');
-            f.style.left = Math.random() * 100 + 'vw';
-            f.style.animationDuration = (Math.random() * 3 + 2) + 's';
-            f.style.background = Math.random() > 0.5 ? '#FF8F00' : '#FFD600';
-            document.body.appendChild(f);
-            setTimeout(() => f.remove(), 5000);
-        }, 300);
+            container.innerHTML = `
+                <h3 style="color: gold; font-size: 2rem; margin-bottom: 10px;">🏆 ${selectedLang === 'english' ? 'Quest Completed!' : 'क्वेस्ट पूरा भ गेल!'} 🏆</h3>
+                <p style="font-size: 1.1rem; font-weight: normal; color: #aaa; margin-bottom: 5px;">Attempter: <span style="color: var(--neon-cyan); font-weight: bold;">${userName}</span></p>
+                <p style="font-size: 1.4rem; font-weight: bold; margin: 10px 0;">${UI_TEXT[selectedLang].score}: <span class="neon-text-cyan">${score} / ${totalQ}</span></p>
+                <p style="font-style: italic; color: #fff; opacity: 0.9; padding: 0 10px; margin-bottom:15px;">"${evaluationPhrase}"</p>
+                
+                <div class="funny-relation-comment" style="text-align: left; margin-bottom: 10px;">
+                    <span style="color: var(--neon-cyan); font-weight: bold; font-size: 0.9rem; text-transform: uppercase; display: block; margin-bottom: 5px;">🇬🇧 English Matrix:</span>
+                    ${comments.english}
+                </div>
+                <div class="funny-relation-comment" style="text-align: left; border-left-color: var(--neon-pink); margin-top: 5px;">
+                    <span style="color: var(--neon-pink); font-weight: bold; font-size: 0.9rem; text-transform: uppercase; display: block; margin-bottom: 5px;">🇮🇳 हिंदी मैट्रिक्स:</span>
+                    ${comments.hindi}
+                </div>
+                
+                <div style="margin-top:25px;">
+                    <button class="btn-whatsapp" onclick="sendResultToGopalWhatsApp()"><i class="fa-brands fa-whatsapp"></i> ${waBtnLabel}</button>
+                    <button class="btn-neon" onclick="proceedToVault()">${btnLabel}</button>
+                </div>
+            `;
+        }
+
+        function proceedToVault() {
+            let duration = 3 * 1000;
+            let end = Date.now() + duration;
+
+            (function frame() {
+                confetti({ particleCount: 4, angle: 60, spread: 55, origin: { x: 0 } });
+                confetti({ particleCount: 4, angle: 120, spread: 55, origin: { x: 1 } });
+                if (Date.now() < end) { requestAnimationFrame(frame); }
+            }());
+            document.getElementById('birthday-quest').classList.add('hidden');
+            document.getElementById('birthday-vault').classList.remove('hidden');
+            document.getElementById('birthday-vault').scrollIntoView();
+        }
+
+        /* ==========================================
+           VAULT SYSTEM (TYPING ANIMATION)
+           ========================================== */
+        function unlockVault() {
+            playAmbientNote(400, 0.3);
+            document.getElementById('vault-closed').classList.add('hidden');
+            document.getElementById('vault-opened').classList.remove('hidden');
+            
+            const textContainer = document.getElementById('typing-msg');
+            let i = 0;
+            textContainer.innerHTML = "";
+            function typeWriter() {
+                if (i < BIRTHDAY_MESSAGE.length) {
+                    textContainer.innerHTML += BIRTHDAY_MESSAGE.charAt(i);
+                    i++;
+                    if(i % 3 === 0) playAmbientNote(1200, 0.02);
+                    setTimeout(typeWriter, 35);
+                } else {
+                    document.getElementById('secret-gift').classList.remove('hidden');
+                    document.getElementById('interactive-features').classList.remove('hidden');
+                }
+            }
+            typeWriter();
+        }
+
+        /* ==========================================
+           GIFT MECHANICS
+           ========================================== */
+        function openGift() {
+            playAmbientNote(800, 0.4);
+            confetti({ particleCount: 100, spread: 70, scalar: 1.2 });
+            document.getElementById('gift-box').classList.add('hidden');
+            document.getElementById('gift-content').classList.remove('hidden');
+            document.getElementById('gift-custom-msg').innerText = GIFT_MESSAGE;
+
+            const imgElement = document.getElementById('gopal-img');
+            if (PHOTO_URL && PHOTO_URL.trim() !== "") {
+                imgElement.src = PHOTO_URL;
+                imgElement.classList.remove('hidden');
+                imgElement.previousElementSibling.classList.add('hidden'); 
+                imgElement.previousElementSibling.previousElementSibling.classList.add('hidden');
+            }
+        }
+
+        /* ==========================================
+           FUN UTILITY FEATURES (ROASTS & PERKS)
+           ========================================== */
+        const roasts = [
+            "Can completely digest snacks faster than the speed of light.",
+            "Weight profile status: 103 kg of pure charm, style, and secret cooking talent.",
+            "Turning 40 today but still matching the exact shyness matrix of a high schooler.",
+            "Preeti's management level: Expert. Gopal's 'Yo' response latency: Zero.",
+            "Traveling status update: Successfully established a brand new WhatsApp group with Anil.",
+            "Spotted wearing a Black Shawl on the couch; completely asleep inside 5 minutes flat."
+        ];
+
+        function generateRoast() {
+            playAmbientNote(300, 0.1);
+            const display = document.getElementById('roast-display');
+            const randomRoast = roasts[Math.floor(Math.random() * roasts.length)];
+            display.style.opacity = 0;
+            setTimeout(() => {
+                display.innerText = `"${randomRoast}"`;
+                display.style.opacity = 1;
+                display.style.transition = "opacity 0.3s ease";
+            }, 150);
+        }
+
+        function showCertificate() {
+            playAmbientNote(700, 0.2);
+            document.getElementById('certificate-container').classList.remove('hidden');
+            confetti({ particleCount: 30, colors: ['#ffd700'] });
+        }
     </script>
 </body>
 </html>
+
